@@ -12,7 +12,7 @@ const anthropic = createAnthropic();
 export const helloWorld = inngest.createFunction(
   { id: "hello-world" },
   { event: "test/hello.world" },
-  async ({ event, step }) => {
+  async ({ step }) => {
     await step.sleep("fetching", "5s");
 
     await step.sleep("transcribing", "5s");
@@ -38,6 +38,11 @@ export const sendChatWithAi = inngest.createFunction(
         model: google("gemini-2.5-flash"),
         system: "You are a helpful ai assistant",
         prompt: "What is 2 + 2 ?",
+        experimental_telemetry: {
+          isEnabled: true,
+          recordInputs: true,
+          recordOutputs: true,
+        },
       }
     );
 
@@ -48,6 +53,11 @@ export const sendChatWithAi = inngest.createFunction(
         model: openai("gpt-4.1-nano"),
         system: "You are a helpful ai assistant",
         prompt: "What is 2 + 2 ?",
+        experimental_telemetry: {
+          isEnabled: true,
+          recordInputs: true,
+          recordOutputs: true,
+        },
       }
     );
 
@@ -58,6 +68,11 @@ export const sendChatWithAi = inngest.createFunction(
         model: anthropic("claude-sonnet-4-5"),
         system: "You are a helpful ai assistant",
         prompt: "What is 2 + 2 ?",
+        experimental_telemetry: {
+          isEnabled: true,
+          recordInputs: true,
+          recordOutputs: true,
+        },
       }
     );
 
