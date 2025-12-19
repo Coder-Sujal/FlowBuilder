@@ -96,7 +96,7 @@ export const EntityContainer = ({
   pagination,
 }: EntityContainerProps) => {
   return (
-    <div className="p-4 md:px-10 md:py-6">
+    <div className="p-4 md:px-10 md:py-6 h-full">
       <div className="mx-auto max-w-7xl w-full flex flex-col gap-y-4 h-full">
         {header}
         <div className="flex flex-col gap-y-4 h-full">
