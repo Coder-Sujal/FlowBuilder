@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="cedb1254-57aa-469d-8a66-fa8e93716dab" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/app/api/inngest/route.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/app/api/inngest/route.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/workflow-node.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/workflow-node.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/editor/components/editor.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/editor/components/editor.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/executions/components/http-request/dialog.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/executions/components/http-request/dialog.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/executions/components/http-request/node.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/executions/components/http-request/node.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/workflows/hooks/use-workflows.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/workflows/hooks/use-workflows.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/features/workflows/server/routers.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/features/workflows/server/routers.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/inngest/functions.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/inngest/functions.ts" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 2
+}]]></component>
+  <component name="ProjectId" id="38DWl87eXMddIAJv4LgrMP0EaNG" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "main"
+  }
+}]]></component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-30f59d01ecdd-26cb7f24e5b0-intellij.indexing.shared.core-IU-253.29346.240" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="cedb1254-57aa-469d-8a66-fa8e93716dab" name="Changes" comment="" />
+      <created>1768334773946</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1768334773946</updated>
+    </task>
+    <servers />
+  </component>
+</project>
