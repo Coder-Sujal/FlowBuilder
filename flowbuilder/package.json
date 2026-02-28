@@ -6,6 +6,7 @@
     "dev": "next dev --turbopack",
     "build": "next build --turbopack",
     "start": "next start",
+    "ngrok:dev": "ngrok http --url=newish-unbolted-venita.ngrok-free.dev 3000",
     "lint": "eslint",
     "inngest:dev": "inngest-cli dev",
     "dev:all": "mprocs"
@@ -96,6 +97,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "@types/toposort": "^2.0.7",
+    "dotenv-cli": "^11.0.0",
     "eslint": "^9",
     "eslint-config-next": "15.5.4",
     "inngest-cli": "^1.14.3",

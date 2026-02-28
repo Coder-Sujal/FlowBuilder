@@ -7,3 +7,6 @@ procs:
 
   prisma:
     cmd: ["cmd", "/C", "npx", "prisma", "studio"]
+
+  ngrok:
+    cmd: ["cmd", "/C", "npm", "run", "ngrok:dev"]
