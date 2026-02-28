@@ -73,7 +73,6 @@ export const httpRequestExecutor: NodeExecutor<HttpRequestData> = async ({
 
       if (["POST", "PUT", "PATCH"].includes(method)) {
         const resolved = Handlebars.compile(data.body || "{}")(context);
-        console.log("BODY :- ", resolved);
         JSON.parse(resolved);
         options.body = resolved;
         options.headers = {
