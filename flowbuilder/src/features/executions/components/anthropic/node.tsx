@@ -62,7 +62,7 @@ export const AnthropicNode = memo((props: NodeProps<AnthropicNodeType>) => {
       <BaseExecutionNode
         {...props}
         id={props.id}
-        icon="logos/anthropic.svg"
+        icon="/logos/anthropic.svg"
         name="Anthropic"
         description={description}
         status={status}

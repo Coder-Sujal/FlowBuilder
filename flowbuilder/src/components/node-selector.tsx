@@ -54,19 +54,19 @@ const executionNodes: NodeTypeOption[] = [
     type: NodeType.GEMINI,
     label: "Gemini",
     description: "Uses Google Gemini to generate response",
-    icon: "logos/gemini.svg",
+    icon: "/logos/gemini.svg",
   },
   {
     type: NodeType.OPENAI,
     label: "OpenAI",
     description: "Uses OpenAI to generate response",
-    icon: "logos/openai.svg",
+    icon: "/logos/openai.svg",
   },
   {
     type: NodeType.ANTHROPIC,
     label: "Anthropic",
     description: "Uses Anthropic to generate response",
-    icon: "logos/anthropic.svg",
+    icon: "/logos/anthropic.svg",
   },
 ];
 

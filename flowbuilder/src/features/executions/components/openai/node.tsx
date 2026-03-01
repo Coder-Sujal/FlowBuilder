@@ -62,7 +62,7 @@ export const OpenAiNode = memo((props: NodeProps<OpenAiNodeType>) => {
       <BaseExecutionNode
         {...props}
         id={props.id}
-        icon="logos/openai.svg"
+        icon="/logos/openai.svg"
         name="OpenAI"
         description={description}
         status={status}
