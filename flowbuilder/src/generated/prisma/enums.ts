@@ -26,7 +26,9 @@ export const NodeType = {
   STRIPE_TRIGGER: 'STRIPE_TRIGGER',
   ANTHROPIC: 'ANTHROPIC',
   GEMINI: 'GEMINI',
-  OPENAI: 'OPENAI'
+  OPENAI: 'OPENAI',
+  SLACK: 'SLACK',
+  DISCORD: 'DISCORD'
 } as const
 
 export type NodeType = (typeof NodeType)[keyof typeof NodeType]
