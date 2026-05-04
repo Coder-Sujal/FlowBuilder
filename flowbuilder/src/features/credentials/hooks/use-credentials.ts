@@ -4,10 +4,21 @@ import {
   useQuery,
   useQueryClient,
   useSuspenseQuery,
+  type UseSuspenseQueryResult,
 } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { useCredentialsParams } from "./use-credentials-params";
 import { CredentialType } from "@/generated/prisma/enums";
+
+type CredentialDetail = {
+  id: string;
+  name: string;
+  type: CredentialType;
+  value: string;
+  createdAt: Date;
+  updatedAt: Date;
+  userId: string;
+};
 
 export const useSuspenseCredentials = () => {
   const trpc = useTRPC();
@@ -50,9 +61,13 @@ export const useRemoveCredential = () => {
   );
 };
 
-export const useSuspenseCredential = (id: string) => {
+export const useSuspenseCredential = (
+  id: string,
+): UseSuspenseQueryResult<CredentialDetail, Error> => {
   const trpc = useTRPC();
-  return useSuspenseQuery(trpc.credentials.getOne.queryOptions({ id }));
+  return useSuspenseQuery(
+    trpc.credentials.getOne.queryOptions({ id }),
+  ) as UseSuspenseQueryResult<CredentialDetail, Error>;
 };
 
 export const useUpdateCredential = () => {
