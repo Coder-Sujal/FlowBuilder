@@ -115,5 +115,5 @@ export const useCredentialsByType = (
   const trpc = useTRPC();
   return useQuery(
     trpc.credentials.getByType.queryOptions({ type }),
-  ) as UseQueryResult<CredentialDetail[], Error>;
+  ) as unknown as UseQueryResult<CredentialDetail[], Error>;
 };
