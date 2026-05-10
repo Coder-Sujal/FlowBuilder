@@ -4,26 +4,43 @@ import {
   useQuery,
   useQueryClient,
   useSuspenseQuery,
+  type UseQueryResult,
   type UseSuspenseQueryResult,
 } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { useCredentialsParams } from "./use-credentials-params";
 import { CredentialType } from "@/generated/prisma/enums";
 
-type CredentialDetail = {
+type CredentialListItem = {
   id: string;
   name: string;
   type: CredentialType;
-  value: string;
   createdAt: Date;
   updatedAt: Date;
+};
+
+type CredentialDetail = CredentialListItem & {
+  value: string;
   userId: string;
 };
 
-export const useSuspenseCredentials = () => {
+type CredentialsListResult = {
+  items: CredentialListItem[];
+  page: number;
+  pageSize: number;
+  totalCount: number;
+  totalPages: number;
+  hasNextPage: boolean;
+  hasPrevPage: boolean;
+};
+
+export const useSuspenseCredentials =
+  (): UseSuspenseQueryResult<CredentialsListResult, Error> => {
   const trpc = useTRPC();
   const [params] = useCredentialsParams();
-  return useSuspenseQuery(trpc.credentials.getMany.queryOptions(params));
+  return useSuspenseQuery(
+    trpc.credentials.getMany.queryOptions(params),
+  ) as UseSuspenseQueryResult<CredentialsListResult, Error>;
 };
 
 export const useCreateCredential = () => {
@@ -92,7 +109,11 @@ export const useUpdateCredential = () => {
   );
 };
 
-export const useCredentialsByType = (type: CredentialType) => {
+export const useCredentialsByType = (
+  type: CredentialType,
+): UseQueryResult<CredentialDetail[], Error> => {
   const trpc = useTRPC();
-  return useQuery(trpc.credentials.getByType.queryOptions({ type }));
+  return useQuery(
+    trpc.credentials.getByType.queryOptions({ type }),
+  ) as UseQueryResult<CredentialDetail[], Error>;
 };
