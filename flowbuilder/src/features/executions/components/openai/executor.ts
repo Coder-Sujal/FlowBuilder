@@ -22,6 +22,10 @@ type OpenAiData = {
   userPrompt?: string;
 };
 
+type CredentialWithValue = {
+  value: string;
+};
+
 export const openAiExecutor: NodeExecutor<OpenAiData> = async ({
   data,
   nodeId,
@@ -73,14 +77,14 @@ export const openAiExecutor: NodeExecutor<OpenAiData> = async ({
 
   const userPrompt = Handlebars.compile(data.userPrompt)(context);
 
-  const credential = await step.run("get-credential", () => {
+  const credential = (await step.run("get-credential", () => {
     return prisma.credential.findUnique({
       where: {
         id: data.credentialId,
         userId,
       },
     });
-  });
+  })) as unknown as CredentialWithValue | null;
 
   if (!credential) {
     await publish(
