@@ -93,6 +93,13 @@ export const executeWorkflow = inngest.createFunction(
 
     let context = event.data.initialData || {};
 
+    // Give the browser's per-node realtime subscriptions time to finish
+    // connecting before any node publishes its status. Without this, the first
+    // node (the trigger) publishes loading/success before its subscription is
+    // established on Inngest Cloud, and those ephemeral messages are lost — so
+    // the start node never shows a status in production. See use-node-status.ts.
+    await step.sleep("warm-up-realtime-subscriptions", "2s");
+
     for (const node of sortedNodes) {
       const executor = getExecutor(node.type);
 
