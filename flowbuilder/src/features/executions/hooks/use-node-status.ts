@@ -1,7 +1,8 @@
 import { NodeStatus } from "@/components/react-flow/node-status-indicator";
 import { Realtime } from "@inngest/realtime";
-import { useEffect, useState } from "react";
-import { useInngestSubscription } from "@inngest/realtime/hooks";
+import { useAtomValue } from "jotai";
+
+import { nodeStatusesAtom } from "@/features/editor/store/atoms";
 
 interface NodeStatusOptions {
   nodeId: string;
@@ -10,44 +11,15 @@ interface NodeStatusOptions {
   refreshToken: () => Promise<Realtime.Subscribe.Token>;
 }
 
-export function useNodeStatus({
-  nodeId,
-  channel,
-  topic,
-  refreshToken,
-}: NodeStatusOptions) {
-  const [status, setStatus] = useState<NodeStatus>("initial");
-
-  const { data } = useInngestSubscription({
-    refreshToken,
-    enabled: true,
-  });
-
-  useEffect(() => {
-    if (!data?.length) {
-      return;
-    }
-
-    const latestMessage = data
-      .filter(
-        (msg) =>
-          msg.kind === "data" &&
-          msg.channel === channel &&
-          msg.topic === topic &&
-          msg.data.nodeId === nodeId,
-      )
-      .sort((a, b) => {
-        if (a.kind === "data" && b.kind === "data")
-          return (
-            new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-          );
-        return 0;
-      })[0];
-
-    if (latestMessage?.kind === "data") {
-      setStatus(latestMessage.data.status as NodeStatus);
-    }
-  }, [data, nodeId, channel, topic]);
-
-  return status;
+/**
+ * Reads a node's live status from `nodeStatusesAtom`, which is populated by the
+ * single editor-level realtime subscription (see `useWorkflowStatus`).
+ *
+ * The `channel` / `topic` / `refreshToken` fields are accepted for backwards
+ * compatibility with existing call sites but are no longer used — every node
+ * now shares one subscription rather than opening its own.
+ */
+export function useNodeStatus({ nodeId }: NodeStatusOptions): NodeStatus {
+  const statuses = useAtomValue(nodeStatusesAtom);
+  return statuses[nodeId] ?? "initial";
 }

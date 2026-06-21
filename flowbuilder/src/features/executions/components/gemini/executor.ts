@@ -1,4 +1,4 @@
-import { geminiChannel } from "./../../../../inngest/channels/gemini";
+import { nodeStatusChannel } from "@/inngest/channels/node-status";
 import type { NodeExecutor } from "@/features/executions/types";
 import { NonRetriableError } from "inngest";
 import Handlebars from "handlebars";
@@ -35,7 +35,7 @@ export const geminiExecutor: NodeExecutor<GeminiData> = async ({
   publish,
 }) => {
   await publish(
-    geminiChannel().status({
+    nodeStatusChannel().status({
       nodeId,
       status: "loading",
     }),
@@ -43,7 +43,7 @@ export const geminiExecutor: NodeExecutor<GeminiData> = async ({
 
   if (!data.variableName) {
     await publish(
-      geminiChannel().status({
+      nodeStatusChannel().status({
         nodeId,
         status: "error",
       }),
@@ -53,7 +53,7 @@ export const geminiExecutor: NodeExecutor<GeminiData> = async ({
 
   if (!data.credentialId) {
     await publish(
-      geminiChannel().status({
+      nodeStatusChannel().status({
         nodeId,
         status: "error",
       }),
@@ -63,7 +63,7 @@ export const geminiExecutor: NodeExecutor<GeminiData> = async ({
 
   if (!data.userPrompt) {
     await publish(
-      geminiChannel().status({
+      nodeStatusChannel().status({
         nodeId,
         status: "error",
       }),
@@ -88,7 +88,7 @@ export const geminiExecutor: NodeExecutor<GeminiData> = async ({
 
   if (!credential) {
     await publish(
-      geminiChannel().status({
+      nodeStatusChannel().status({
         nodeId,
         status: "error",
       }),
@@ -116,7 +116,7 @@ export const geminiExecutor: NodeExecutor<GeminiData> = async ({
       steps[0].content[0].type === "text" ? steps[0].content[0].text : "";
 
     await publish(
-      geminiChannel().status({
+      nodeStatusChannel().status({
         nodeId,
         status: "success",
       }),
@@ -130,7 +130,7 @@ export const geminiExecutor: NodeExecutor<GeminiData> = async ({
     };
   } catch (error) {
     await publish(
-      geminiChannel().status({
+      nodeStatusChannel().status({
         nodeId,
         status: "error",
       }),

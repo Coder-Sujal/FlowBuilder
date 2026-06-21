@@ -2,7 +2,7 @@ import type { NodeExecutor } from "@/features/executions/types";
 import { NonRetriableError } from "inngest";
 import Handlebars from "handlebars";
 import { decode } from "html-entities";
-import { discordChannel } from "@/inngest/channels/discord";
+import { nodeStatusChannel } from "@/inngest/channels/node-status";
 import ky from "ky";
 
 Handlebars.registerHelper("json", (context) => {
@@ -27,7 +27,7 @@ export const discordExecutor: NodeExecutor<DiscordData> = async ({
   publish,
 }) => {
   await publish(
-    discordChannel().status({
+    nodeStatusChannel().status({
       nodeId,
       status: "loading",
     }),
@@ -35,7 +35,7 @@ export const discordExecutor: NodeExecutor<DiscordData> = async ({
 
   if (!data.webhookUrl) {
     await publish(
-      discordChannel().status({
+      nodeStatusChannel().status({
         nodeId,
         status: "error",
       }),
@@ -45,7 +45,7 @@ export const discordExecutor: NodeExecutor<DiscordData> = async ({
 
   if (!data.content) {
     await publish(
-      discordChannel().status({
+      nodeStatusChannel().status({
         nodeId,
         status: "error",
       }),
@@ -63,7 +63,7 @@ export const discordExecutor: NodeExecutor<DiscordData> = async ({
     const result = await step.run("discord-webhook", async () => {
       if (!data.variableName) {
         await publish(
-          discordChannel().status({
+          nodeStatusChannel().status({
             nodeId,
             status: "error",
           }),
@@ -86,7 +86,7 @@ export const discordExecutor: NodeExecutor<DiscordData> = async ({
     });
 
     await publish(
-      discordChannel().status({
+      nodeStatusChannel().status({
         nodeId,
         status: "success",
       }),
@@ -95,7 +95,7 @@ export const discordExecutor: NodeExecutor<DiscordData> = async ({
     return result;
   } catch (error) {
     await publish(
-      discordChannel().status({
+      nodeStatusChannel().status({
         nodeId,
         status: "error",
       }),

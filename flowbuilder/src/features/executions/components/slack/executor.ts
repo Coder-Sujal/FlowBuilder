@@ -2,7 +2,7 @@ import type { NodeExecutor } from "@/features/executions/types";
 import { NonRetriableError } from "inngest";
 import Handlebars from "handlebars";
 import { decode } from "html-entities";
-import { slackChannel } from "@/inngest/channels/slack";
+import { nodeStatusChannel } from "@/inngest/channels/node-status";
 import ky from "ky";
 
 Handlebars.registerHelper("json", (context) => {
@@ -26,7 +26,7 @@ export const slackExecutor: NodeExecutor<SlackData> = async ({
   publish,
 }) => {
   await publish(
-    slackChannel().status({
+    nodeStatusChannel().status({
       nodeId,
       status: "loading",
     }),
@@ -34,7 +34,7 @@ export const slackExecutor: NodeExecutor<SlackData> = async ({
 
   if (!data.webhookUrl) {
     await publish(
-      slackChannel().status({
+      nodeStatusChannel().status({
         nodeId,
         status: "error",
       }),
@@ -44,7 +44,7 @@ export const slackExecutor: NodeExecutor<SlackData> = async ({
 
   if (!data.content) {
     await publish(
-      slackChannel().status({
+      nodeStatusChannel().status({
         nodeId,
         status: "error",
       }),
@@ -59,7 +59,7 @@ export const slackExecutor: NodeExecutor<SlackData> = async ({
     const result = await step.run("slack-webhook", async () => {
       if (!data.variableName) {
         await publish(
-          slackChannel().status({
+          nodeStatusChannel().status({
             nodeId,
             status: "error",
           }),
@@ -81,7 +81,7 @@ export const slackExecutor: NodeExecutor<SlackData> = async ({
     });
 
     await publish(
-      slackChannel().status({
+      nodeStatusChannel().status({
         nodeId,
         status: "success",
       }),
@@ -90,7 +90,7 @@ export const slackExecutor: NodeExecutor<SlackData> = async ({
     return result;
   } catch (error) {
     await publish(
-      slackChannel().status({
+      nodeStatusChannel().status({
         nodeId,
         status: "error",
       }),

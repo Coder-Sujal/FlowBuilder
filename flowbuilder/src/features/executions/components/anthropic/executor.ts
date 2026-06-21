@@ -1,4 +1,4 @@
-import { anthropicChannel } from "../../../../inngest/channels/anthropic";
+import { nodeStatusChannel } from "@/inngest/channels/node-status";
 import type { NodeExecutor } from "@/features/executions/types";
 import { NonRetriableError } from "inngest";
 import Handlebars from "handlebars";
@@ -35,7 +35,7 @@ export const anthropicExecutor: NodeExecutor<AnthropicData> = async ({
   publish,
 }) => {
   await publish(
-    anthropicChannel().status({
+    nodeStatusChannel().status({
       nodeId,
       status: "loading",
     }),
@@ -43,7 +43,7 @@ export const anthropicExecutor: NodeExecutor<AnthropicData> = async ({
 
   if (!data.variableName) {
     await publish(
-      anthropicChannel().status({
+      nodeStatusChannel().status({
         nodeId,
         status: "error",
       }),
@@ -53,7 +53,7 @@ export const anthropicExecutor: NodeExecutor<AnthropicData> = async ({
 
   if (!data.credentialId) {
     await publish(
-      anthropicChannel().status({
+      nodeStatusChannel().status({
         nodeId,
         status: "error",
       }),
@@ -63,7 +63,7 @@ export const anthropicExecutor: NodeExecutor<AnthropicData> = async ({
 
   if (!data.userPrompt) {
     await publish(
-      anthropicChannel().status({
+      nodeStatusChannel().status({
         nodeId,
         status: "error",
       }),
@@ -88,7 +88,7 @@ export const anthropicExecutor: NodeExecutor<AnthropicData> = async ({
 
   if (!credential) {
     await publish(
-      anthropicChannel().status({
+      nodeStatusChannel().status({
         nodeId,
         status: "error",
       }),
@@ -120,7 +120,7 @@ export const anthropicExecutor: NodeExecutor<AnthropicData> = async ({
       steps[0].content[0].type === "text" ? steps[0].content[0].text : "";
 
     await publish(
-      anthropicChannel().status({
+      nodeStatusChannel().status({
         nodeId,
         status: "success",
       }),
@@ -134,7 +134,7 @@ export const anthropicExecutor: NodeExecutor<AnthropicData> = async ({
     };
   } catch (error) {
     await publish(
-      anthropicChannel().status({
+      nodeStatusChannel().status({
         nodeId,
         status: "error",
       }),

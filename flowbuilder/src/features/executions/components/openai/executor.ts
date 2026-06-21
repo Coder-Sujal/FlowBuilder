@@ -3,7 +3,7 @@ import { NonRetriableError } from "inngest";
 import Handlebars from "handlebars";
 import { generateText } from "ai";
 import { createOpenAI } from "@ai-sdk/openai";
-import { openAiChannel } from "@/inngest/channels/openai";
+import { nodeStatusChannel } from "@/inngest/channels/node-status";
 import prisma from "@/lib/db";
 import { decrypt } from "@/lib/encryption";
 
@@ -35,7 +35,7 @@ export const openAiExecutor: NodeExecutor<OpenAiData> = async ({
   publish,
 }) => {
   await publish(
-    openAiChannel().status({
+    nodeStatusChannel().status({
       nodeId,
       status: "loading",
     }),
@@ -43,7 +43,7 @@ export const openAiExecutor: NodeExecutor<OpenAiData> = async ({
 
   if (!data.variableName) {
     await publish(
-      openAiChannel().status({
+      nodeStatusChannel().status({
         nodeId,
         status: "error",
       }),
@@ -53,7 +53,7 @@ export const openAiExecutor: NodeExecutor<OpenAiData> = async ({
 
   if (!data.credentialId) {
     await publish(
-      openAiChannel().status({
+      nodeStatusChannel().status({
         nodeId,
         status: "error",
       }),
@@ -63,7 +63,7 @@ export const openAiExecutor: NodeExecutor<OpenAiData> = async ({
 
   if (!data.userPrompt) {
     await publish(
-      openAiChannel().status({
+      nodeStatusChannel().status({
         nodeId,
         status: "error",
       }),
@@ -88,7 +88,7 @@ export const openAiExecutor: NodeExecutor<OpenAiData> = async ({
 
   if (!credential) {
     await publish(
-      openAiChannel().status({
+      nodeStatusChannel().status({
         nodeId,
         status: "error",
       }),
@@ -116,7 +116,7 @@ export const openAiExecutor: NodeExecutor<OpenAiData> = async ({
       steps[0].content[0].type === "text" ? steps[0].content[0].text : "";
 
     await publish(
-      openAiChannel().status({
+      nodeStatusChannel().status({
         nodeId,
         status: "success",
       }),
@@ -130,7 +130,7 @@ export const openAiExecutor: NodeExecutor<OpenAiData> = async ({
     };
   } catch (error) {
     await publish(
-      openAiChannel().status({
+      nodeStatusChannel().status({
         nodeId,
         status: "error",
       }),

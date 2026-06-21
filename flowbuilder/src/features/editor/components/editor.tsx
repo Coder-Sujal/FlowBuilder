@@ -31,6 +31,7 @@ import { editorAtom } from "../store/atoms";
 import "@xyflow/react/dist/style.css";
 import { NodeType } from "@/generated/prisma/enums";
 import { ExecuteWorkflowButton } from "./execute-workflow-button";
+import { useWorkflowStatus } from "../hooks/use-workflow-status";
 
 export const EditorLoading = () => {
   return <LoadingView message="Loading editor..." />;
@@ -47,6 +48,10 @@ export const Editor = ({ workflowId }: { workflowId: string }) => {
   const [edges, setEdges] = useState<Edge[]>(workflow.edges);
 
   const setEditor = useSetAtom(editorAtom);
+
+  // One realtime subscription for the whole editor, established on mount so it
+  // is reliably connected before any node publishes its status.
+  useWorkflowStatus();
 
   const onNodesChange = useCallback(
     (changes: NodeChange[]) =>

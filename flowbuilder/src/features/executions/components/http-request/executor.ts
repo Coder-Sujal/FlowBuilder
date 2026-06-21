@@ -2,7 +2,7 @@ import type { NodeExecutor } from "@/features/executions/types";
 import { NonRetriableError } from "inngest";
 import ky, { type Options as KyOptions } from "ky";
 import Handlebars from "handlebars";
-import { httpRequestChannel } from "@/inngest/channels/http-request";
+import { nodeStatusChannel } from "@/inngest/channels/node-status";
 
 Handlebars.registerHelper("json", (context) => {
   const jsonString = JSON.stringify(context, null, 2);
@@ -26,7 +26,7 @@ export const httpRequestExecutor: NodeExecutor<HttpRequestData> = async ({
   publish,
 }) => {
   await publish(
-    httpRequestChannel().status({
+    nodeStatusChannel().status({
       nodeId,
       status: "loading",
     }),
@@ -36,7 +36,7 @@ export const httpRequestExecutor: NodeExecutor<HttpRequestData> = async ({
     const result = await step.run("http-request", async () => {
       if (!data.endpoint) {
         await publish(
-          httpRequestChannel().status({
+          nodeStatusChannel().status({
             nodeId,
             status: "error",
           }),
@@ -48,7 +48,7 @@ export const httpRequestExecutor: NodeExecutor<HttpRequestData> = async ({
 
       if (!data.variableName) {
         await publish(
-          httpRequestChannel().status({
+          nodeStatusChannel().status({
             nodeId,
             status: "error",
           }),
@@ -60,7 +60,7 @@ export const httpRequestExecutor: NodeExecutor<HttpRequestData> = async ({
 
       if (!data.method) {
         await publish(
-          httpRequestChannel().status({
+          nodeStatusChannel().status({
             nodeId,
             status: "error",
           }),
@@ -103,7 +103,7 @@ export const httpRequestExecutor: NodeExecutor<HttpRequestData> = async ({
     });
 
     await publish(
-      httpRequestChannel().status({
+      nodeStatusChannel().status({
         nodeId,
         status: "success",
       }),
@@ -112,7 +112,7 @@ export const httpRequestExecutor: NodeExecutor<HttpRequestData> = async ({
     return result;
   } catch (error) {
     await publish(
-      httpRequestChannel().status({
+      nodeStatusChannel().status({
         nodeId,
         status: "error",
       }),

@@ -3,15 +3,7 @@ import { inngest } from "./client";
 import prisma from "@/lib/db";
 import { topologicalSort } from "./utils";
 import { getExecutor } from "@/features/executions/lib/executor-registry";
-import { httpRequestChannel } from "./channels/http-request";
-import { manualTriggerChannel } from "./channels/manual-trigger";
-import { googleFormTriggerChannel } from "./channels/google-form-trigger";
-import { stripeTriggerChannel } from "./channels/stripe-trigger";
-import { geminiChannel } from "./channels/gemini";
-import { openAiChannel } from "./channels/openai";
-import { anthropicChannel } from "./channels/anthropic";
-import { discordChannel } from "./channels/discord";
-import { slackChannel } from "./channels/slack";
+import { nodeStatusChannel } from "./channels/node-status";
 import { ExecutionStatus } from "@/generated/prisma/enums";
 
 export const executeWorkflow = inngest.createFunction(
@@ -31,17 +23,7 @@ export const executeWorkflow = inngest.createFunction(
   },
   {
     event: "workflows/execute-workflow",
-    channels: [
-      httpRequestChannel(),
-      manualTriggerChannel(),
-      googleFormTriggerChannel(),
-      stripeTriggerChannel(),
-      geminiChannel(),
-      openAiChannel(),
-      anthropicChannel(),
-      discordChannel(),
-      slackChannel(),
-    ],
+    channels: [nodeStatusChannel()],
   },
   async ({ event, step, publish }) => {
     const inngestEventId = event.id;
@@ -92,13 +74,6 @@ export const executeWorkflow = inngest.createFunction(
     });
 
     let context = event.data.initialData || {};
-
-    // Give the browser's per-node realtime subscriptions time to finish
-    // connecting before any node publishes its status. Without this, the first
-    // node (the trigger) publishes loading/success before its subscription is
-    // established on Inngest Cloud, and those ephemeral messages are lost — so
-    // the start node never shows a status in production. See use-node-status.ts.
-    await step.sleep("warm-up-realtime-subscriptions", "2s");
 
     for (const node of sortedNodes) {
       const executor = getExecutor(node.type);
